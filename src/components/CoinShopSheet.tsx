@@ -1,14 +1,14 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-import { Colors } from '@/src/tokens/colors';
-import { BorderRadius, Spacing } from '@/src/tokens/spacing';
+import { Colors } from "@/src/tokens/colors";
+import { BorderRadius, Spacing } from "@/src/tokens/spacing";
 
-const coinIcon = require('@/assets/images/coin.png');
+const coinIcon = require("@/assets/images/coin.png");
 
 const PACKAGES = [
-  { coins: 50, label: 'Starter' },
-  { coins: 150, label: 'Popular' },
-  { coins: 400, label: 'Best Value' },
+  { coins: 50, label: "Starter" },
+  { coins: 150, label: "Popular" },
+  { coins: 400, label: "Best Value" },
 ];
 
 export function CoinShopSheet({
@@ -25,9 +25,15 @@ export function CoinShopSheet({
       </Pressable>
       <View style={styles.card}>
         <Text style={styles.title}>Get Coins</Text>
-        <Text style={styles.subtitle}>Top up your balance to unlock episodes</Text>
+        <Text style={styles.subtitle}>
+          Top up your balance to unlock episodes
+        </Text>
         {PACKAGES.map((pack) => (
-          <Pressable key={pack.coins} style={styles.packageRow} onPress={() => onBuy(pack.coins)}>
+          <Pressable
+            key={pack.coins}
+            style={styles.packageRow}
+            onPress={() => onBuy(pack.coins)}
+          >
             <Image source={coinIcon} style={styles.coinIcon} />
             <View style={styles.packageInfo}>
               <Text style={styles.packageCoins}>{pack.coins} Coins</Text>
@@ -44,19 +50,19 @@ export function CoinShopSheet({
 const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFill,
-    backgroundColor: 'rgba(0,0,0,0.85)',
-    justifyContent: 'flex-end',
+    backgroundColor: "rgba(0,0,0,0.85)",
+    justifyContent: "flex-end",
   },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     top: Spacing.xxl,
     right: Spacing.lg,
     width: 36,
     height: 36,
     borderRadius: BorderRadius.pill,
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "rgba(255,255,255,0.15)",
+    alignItems: "center",
+    justifyContent: "center",
   },
   closeText: {
     color: Colors.text.default,
@@ -68,7 +74,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
-    fontWeight: '700',
+    fontWeight: "700",
     color: Colors.text.default,
   },
   subtitle: {
@@ -77,8 +83,8 @@ const styles = StyleSheet.create({
     color: Colors.text.muted,
   },
   packageRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: Spacing.lg,
     padding: Spacing.md,
     borderRadius: BorderRadius.lg,
@@ -94,7 +100,7 @@ const styles = StyleSheet.create({
   },
   packageCoins: {
     fontSize: 15,
-    fontWeight: '700',
+    fontWeight: "700",
     color: Colors.text.default,
   },
   packageLabel: {
@@ -104,7 +110,7 @@ const styles = StyleSheet.create({
   },
   buyText: {
     fontSize: 14,
-    fontWeight: '700',
+    fontWeight: "700",
     color: Colors.text.accent,
   },
 });

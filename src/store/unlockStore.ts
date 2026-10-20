@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 const STARTING_COIN_BALANCE = 50;
 export const EPISODE_UNLOCK_COST = 20;
@@ -14,7 +14,11 @@ type UnlockState = {
   goPremium: () => void;
   addCoins: (amount: number) => void;
   unlockWithCoins: (showId: number, episodeNumber: number) => boolean;
-  isEpisodeLocked: (showId: number, episodeNumber: number, baseLocked: boolean) => boolean;
+  isEpisodeLocked: (
+    showId: number,
+    episodeNumber: number,
+    baseLocked: boolean,
+  ) => boolean;
 };
 
 export const useUnlockStore = create<UnlockState>((set, get) => ({
@@ -22,13 +26,17 @@ export const useUnlockStore = create<UnlockState>((set, get) => ({
   coinBalance: STARTING_COIN_BALANCE,
   coinUnlockedEpisodes: new Set(),
   goPremium: () => set({ isPremium: true }),
-  addCoins: (amount) => set((state) => ({ coinBalance: state.coinBalance + amount })),
+  addCoins: (amount) =>
+    set((state) => ({ coinBalance: state.coinBalance + amount })),
   unlockWithCoins: (showId, episodeNumber) => {
     const state = get();
     if (state.coinBalance < EPISODE_UNLOCK_COST) return false;
     const next = new Set(state.coinUnlockedEpisodes);
     next.add(episodeKey(showId, episodeNumber));
-    set({ coinBalance: state.coinBalance - EPISODE_UNLOCK_COST, coinUnlockedEpisodes: next });
+    set({
+      coinBalance: state.coinBalance - EPISODE_UNLOCK_COST,
+      coinUnlockedEpisodes: next,
+    });
     return true;
   },
   isEpisodeLocked: (showId, episodeNumber, baseLocked) => {

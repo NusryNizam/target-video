@@ -105,14 +105,16 @@ export default function DetailsScreen() {
           <Text style={styles.title}>{show.name}</Text>
           <View style={styles.metaRow}>
             <Text style={styles.meta}>
-              ★ {show.vote_average.toFixed(1)} ({formatCompactCount(show.vote_count)})
+              ★ {show.vote_average.toFixed(1)} (
+              {formatCompactCount(show.vote_count)})
             </Text>
             <Text style={styles.metaDot}>•</Text>
             <Text style={styles.meta}>{year}</Text>
           </View>
           <Pressable
             style={styles.playButton}
-            onPress={() => router.push(`/watch/${show.id}`)}>
+            onPress={() => router.push(`/watch/${show.id}`)}
+          >
             <Text style={styles.playButtonText}>▶ Play</Text>
           </Pressable>
 
@@ -136,12 +138,15 @@ export default function DetailsScreen() {
                 {member.profile_path ? (
                   <Image
                     source={{
-                      uri: tmdbImageUrl(member.profile_path, "w200") ?? undefined,
+                      uri:
+                        tmdbImageUrl(member.profile_path, "w200") ?? undefined,
                     }}
                     style={styles.castAvatar}
                   />
                 ) : (
-                  <View style={[styles.castAvatar, styles.castAvatarFallback]} />
+                  <View
+                    style={[styles.castAvatar, styles.castAvatarFallback]}
+                  />
                 )}
                 <Text numberOfLines={1} style={styles.castName}>
                   {member.name}

@@ -68,8 +68,14 @@ export function FeaturedHero({
           </Pressable>
           <Pressable
             style={styles.addButton}
-            onPress={() => toggleFavorite(id)}>
-            <Text style={[styles.addButtonText, isFavorite && styles.addButtonTextActive]}>
+            onPress={() => toggleFavorite(id)}
+          >
+            <Text
+              style={[
+                styles.addButtonText,
+                isFavorite && styles.addButtonTextActive,
+              ]}
+            >
               {isFavorite ? "♥" : "♡"}
             </Text>
           </Pressable>

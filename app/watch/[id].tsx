@@ -1,5 +1,5 @@
 import { useEventListener } from "expo";
-import { Stack, router, useLocalSearchParams } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { useEffect, useMemo, useState } from "react";
@@ -89,7 +89,11 @@ export default function WatchScreen() {
       <View style={[styles.topBar, { paddingTop: insets.top + Spacing.sm }]}>
         <Pressable style={styles.iconButton} onPress={() => router.back()}>
           <SymbolView
-            name={{ ios: "chevron.left", android: "arrow_back", web: "arrow_back" }}
+            name={{
+              ios: "chevron.left",
+              android: "arrow_back",
+              web: "arrow_back",
+            }}
             tintColor={Colors.text.default}
             size={20}
           />

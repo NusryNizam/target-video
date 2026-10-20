@@ -2,7 +2,14 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Stack, router } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { useEffect, useState } from "react";
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import Animated, {
   FadeInDown,
   FadeInUp,
@@ -23,7 +30,13 @@ const coinIcon = require("@/assets/images/coin.png");
 const PACKAGES = [
   { coins: 50, price: "$0.99", label: "Starter" },
   { coins: 150, price: "$2.99", label: "Popular", tag: "Most Popular" },
-  { coins: 400, price: "$6.99", label: "Mega Pack", tag: "Best Value", bonus: "+25% Bonus" },
+  {
+    coins: 400,
+    price: "$6.99",
+    label: "Mega Pack",
+    tag: "Best Value",
+    bonus: "+25% Bonus",
+  },
   { coins: 1000, price: "$14.99", label: "Ultimate", bonus: "+40% Bonus" },
 ];
 
@@ -62,7 +75,10 @@ export default function CoinsScreen() {
   return (
     <View style={styles.flex}>
       <Stack.Screen options={{ headerShown: false }} />
-      <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.scrollContent}
+      >
         <LinearGradient
           colors={Gradients.brand}
           start={{ x: 0, y: 0 }}
@@ -83,10 +99,15 @@ export default function CoinsScreen() {
           {PACKAGES.map((pack, index) => (
             <Animated.View
               key={pack.coins}
-              entering={FadeInDown.delay(index * 80).springify().damping(16)}
+              entering={FadeInDown.delay(index * 80)
+                .springify()
+                .damping(16)}
             >
               <Pressable
-                style={[styles.packageCard, pack.tag && styles.packageCardFeatured]}
+                style={[
+                  styles.packageCard,
+                  pack.tag && styles.packageCardFeatured,
+                ]}
                 onPress={() => handleBuy(pack)}
               >
                 {pack.tag && (
@@ -111,9 +132,15 @@ export default function CoinsScreen() {
                     )}
                   </View>
                 </View>
-                <View style={pack.tag ? styles.buyButtonFeatured : styles.buyButton}>
+                <View
+                  style={pack.tag ? styles.buyButtonFeatured : styles.buyButton}
+                >
                   <Text
-                    style={pack.tag ? styles.buyButtonFeaturedText : styles.buyButtonText}
+                    style={
+                      pack.tag
+                        ? styles.buyButtonFeaturedText
+                        : styles.buyButtonText
+                    }
                   >
                     {pack.price}
                   </Text>
@@ -147,7 +174,11 @@ export default function CoinsScreen() {
       <View style={[styles.topBar, { paddingTop: insets.top + Spacing.sm }]}>
         <Pressable style={styles.iconButton} onPress={() => router.back()}>
           <SymbolView
-            name={{ ios: "chevron.left", android: "arrow_back", web: "arrow_back" }}
+            name={{
+              ios: "chevron.left",
+              android: "arrow_back",
+              web: "arrow_back",
+            }}
             tintColor={Colors.text.default}
             size={20}
           />

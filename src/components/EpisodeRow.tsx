@@ -1,20 +1,32 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-import type { Episode } from '@/src/utils/episodes';
-import { Colors } from '@/src/tokens/colors';
-import { BorderRadius, Spacing } from '@/src/tokens/spacing';
+import { Colors } from "@/src/tokens/colors";
+import { BorderRadius, Spacing } from "@/src/tokens/spacing";
+import type { Episode } from "@/src/utils/episodes";
 
-export function EpisodeRow({ episode, onPress }: { episode: Episode; onPress: () => void }) {
+export function EpisodeRow({
+  episode,
+  onPress,
+}: {
+  episode: Episode;
+  onPress: () => void;
+}) {
   return (
     <Pressable style={styles.row} onPress={onPress}>
       <View style={styles.thumbnailWrap}>
         {episode.thumbnailUrl ? (
-          <Image source={{ uri: episode.thumbnailUrl }} style={styles.thumbnail} resizeMode="cover" />
+          <Image
+            source={{ uri: episode.thumbnailUrl }}
+            style={styles.thumbnail}
+            resizeMode="cover"
+          />
         ) : (
           <View style={[styles.thumbnail, styles.thumbnailFallback]} />
         )}
         <View style={styles.thumbnailOverlay}>
-          <Text style={styles.thumbnailIcon}>{episode.locked ? '🔒' : '▶'}</Text>
+          <Text style={styles.thumbnailIcon}>
+            {episode.locked ? "🔒" : "▶"}
+          </Text>
         </View>
       </View>
       <View style={styles.info}>
@@ -32,8 +44,8 @@ export function EpisodeRow({ episode, onPress }: { episode: Episode; onPress: ()
 
 const styles = StyleSheet.create({
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: Spacing.md,
     marginBottom: Spacing.md,
   },
@@ -52,9 +64,9 @@ const styles = StyleSheet.create({
   },
   thumbnailOverlay: {
     ...StyleSheet.absoluteFill,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.25)',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.25)",
     borderRadius: BorderRadius.md,
   },
   thumbnailIcon: {
@@ -66,12 +78,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     color: Colors.text.default,
   },
   metaRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: Spacing.sm,
     marginTop: Spacing.xxs,
   },
@@ -81,7 +93,7 @@ const styles = StyleSheet.create({
   },
   unlock: {
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: "600",
     color: Colors.text.accent,
   },
 });
