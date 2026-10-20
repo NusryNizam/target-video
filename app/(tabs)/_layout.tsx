@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     gap: Spacing.xs,
     marginLeft: Spacing.lg,
     paddingHorizontal: Spacing.sm,
-    paddingVertical: Spacing.xxs,
+    paddingVertical: Spacing.xs,
     borderRadius: BorderRadius.pill,
     backgroundColor: Colors.background.secondary,
   },
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     height: 18,
   },
   coinText: {
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: "700",
     color: Colors.text.default,
   },
