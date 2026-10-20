@@ -27,7 +27,7 @@ import { BorderRadius, Spacing } from "@/src/tokens/spacing";
 import { generateEpisodes } from "@/src/utils/episodes";
 import { formatPlaybackTime } from "@/src/utils/format";
 
-const videoSource = require("@/assets/videos/BigBuckBunny.mp4");
+const videoSource = "https://lorem.video/1920x1080";
 
 const HIDE_CONTROLS_DELAY_MS = 3000;
 
