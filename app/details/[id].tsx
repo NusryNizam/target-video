@@ -32,7 +32,6 @@ export default function DetailsScreen() {
 
   const isFavorite = useFavoritesStore((state) => state.isFavorite(numericId));
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
-  const goPremium = useUnlockStore((state) => state.goPremium);
   // isEpisodeLocked's own reference never changes, so also subscribe to the
   // fields it reads internally — otherwise this screen won't re-render when
   // a coin unlock or premium purchase happens elsewhere.
@@ -168,7 +167,10 @@ export default function DetailsScreen() {
               </View>
             </View>
             {hasLockedEpisodes && (
-              <Pressable style={styles.premiumBanner} onPress={goPremium}>
+              <Pressable
+              style={styles.premiumBanner}
+              onPress={() => router.push(`/premium?showId=${show.id}`)}
+            >
                 <View>
                   <Text style={styles.premiumTitle}>Unlock Full Season</Text>
                   <Text style={styles.premiumSubtitle}>

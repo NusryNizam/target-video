@@ -28,7 +28,7 @@ export function tmdbImageUrl(
 export const mockTvShows: TmdbTvShow[] = [
   {
     id: 22980,
-    name: "Watch What Happens Live with Andy Cohen",
+    name: "What Happens Live with Andy Cohen",
     original_name: "Watch What Happens Live with Andy Cohen",
     overview:
       "Bravo network executive Andy Cohen discusses pop culture topics with celebrities and reality show personalities.",

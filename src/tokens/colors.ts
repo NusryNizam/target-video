@@ -7,6 +7,8 @@ const Pallette = {
   WhiteMuted: "rgba(255, 255, 255, 0.6)",
   WhiteSubtle: "rgba(255, 255, 255, 0.12)",
   Surface: "rgba(255, 255, 255, 0.08)",
+
+  Green: "#00591e",
 };
 
 export const Colors = {
@@ -20,6 +22,7 @@ export const Colors = {
   background: {
     default: Pallette.Black,
     secondary: Pallette.Surface,
+    success: Pallette.Green,
   },
   border: {
     default: Pallette.WhiteSubtle,
