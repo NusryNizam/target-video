@@ -1,67 +1,64 @@
-import { useMemo, useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
-import { FeaturedHero } from "@/src/components/FeaturedHero";
-import { GenreChips } from "@/src/components/GenreChips";
-import { MediaRow } from "@/src/components/MediaRow";
-import { mockTvShows, tmdbImageUrl } from "@/src/constants/tmdb";
-import { TV_GENRES } from "@/src/constants/tmdbGenres";
+import { MediaCard, MediaItem } from "@/src/components/MediaCard";
+import { mockMovies, mockTvShows, tmdbImageUrl } from "@/src/constants/tmdb";
+import { favoriteKey, useFavoritesStore } from "@/src/store/favoritesStore";
 import { Colors } from "@/src/tokens/colors";
+import { Spacing } from "@/src/tokens/spacing";
 
-const ALL = "All";
+export default function FavoritesScreen() {
+  const favorites = useFavoritesStore((state) => state.favorites);
 
-export default function TvShowsScreen() {
-  const [featured, ...rest] = mockTvShows;
-
-  const genreOptions = useMemo(() => {
-    const counts = new Map<string, number>();
-    rest.forEach((show) => {
-      show.genre_ids.forEach((id) => {
-        const name = TV_GENRES[id];
-        if (name) counts.set(name, (counts.get(name) ?? 0) + 1);
+  const items: MediaItem[] = [];
+  mockMovies.forEach((movie) => {
+    if (favorites.has(favoriteKey("movie", movie.id))) {
+      items.push({
+        id: movie.id,
+        mediaType: "movie",
+        title: movie.title,
+        posterUrl: tmdbImageUrl(movie.poster_path),
+        voteAverage: movie.vote_average,
       });
-    });
-    const sorted = [...counts.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .map(([name]) => name);
-    return [ALL, ...sorted.slice(0, 5)];
-  }, [rest]);
+    }
+  });
+  mockTvShows.forEach((show) => {
+    if (favorites.has(favoriteKey("tv", show.id))) {
+      items.push({
+        id: show.id,
+        mediaType: "tv",
+        title: show.name,
+        posterUrl: tmdbImageUrl(show.poster_path),
+        voteAverage: show.vote_average,
+      });
+    }
+  });
 
-  const [selectedGenre, setSelectedGenre] = useState(ALL);
-
-  const rowItems = rest
-    .filter(
-      (show) =>
-        selectedGenre === ALL ||
-        show.genre_ids.some((id) => TV_GENRES[id] === selectedGenre),
-    )
-    .map((show) => ({
-      id: show.id,
-      title: show.name,
-      posterUrl: tmdbImageUrl(show.poster_path),
-      voteAverage: show.vote_average,
-    }));
+  if (items.length === 0) {
+    return (
+      <View style={[styles.container, styles.emptyContainer]}>
+        <Text style={styles.emptyTitle}>No favourites yet</Text>
+        <Text style={styles.emptySubtitle}>
+          Tap the heart icon on any movie or show to save it here.
+        </Text>
+      </View>
+    );
+  }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <FeaturedHero
-        title={featured.name}
-        overview={featured.overview}
-        backdropUrl={tmdbImageUrl(featured.backdrop_path, "w780")}
-        genres={featured.genre_ids
-          .map((id) => TV_GENRES[id])
-          .filter(Boolean)
-          .slice(0, 3)}
-        rating={featured.vote_average}
-        year={featured.first_air_date.slice(0, 4)}
+    <View style={styles.container}>
+      <FlatList
+        data={items}
+        keyExtractor={(item) => `${item.mediaType}-${item.id}`}
+        numColumns={2}
+        columnWrapperStyle={styles.row}
+        contentContainerStyle={styles.content}
+        renderItem={({ item }) => (
+          <View style={styles.cardWrapper}>
+            <MediaCard item={item} />
+          </View>
+        )}
       />
-      <GenreChips
-        options={genreOptions}
-        selected={selectedGenre}
-        onSelect={setSelectedGenre}
-      />
-      <MediaRow title="Popular TV Shows" items={rowItems} />
-    </ScrollView>
+    </View>
   );
 }
 
@@ -71,6 +68,28 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background.default,
   },
   content: {
-    paddingBottom: 48,
+    padding: Spacing.lg,
+  },
+  row: {
+    gap: Spacing.md,
+  },
+  cardWrapper: {
+    marginBottom: Spacing.lg,
+  },
+  emptyContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: Spacing.xl,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: Colors.text.default,
+  },
+  emptySubtitle: {
+    marginTop: Spacing.sm,
+    fontSize: 14,
+    color: Colors.text.muted,
+    textAlign: "center",
   },
 });

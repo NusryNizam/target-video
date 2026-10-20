@@ -32,10 +32,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: "TV Shows",
+          title: "Favourites",
           tabBarIcon: ({ color }) => (
             <SymbolView
-              name={{ ios: "tv.fill", android: "tv", web: "tv" }}
+              name={{ ios: "heart.fill", android: "favorite", web: "favorite" }}
               tintColor={color}
               size={28}
             />

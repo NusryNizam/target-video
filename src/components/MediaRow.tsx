@@ -53,5 +53,6 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: Spacing.lg,
+    gap: Spacing.md,
   },
 });

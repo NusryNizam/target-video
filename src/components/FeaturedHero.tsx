@@ -1,26 +1,36 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
+import { useFavoritesStore, type MediaType } from "@/src/store/favoritesStore";
 import { Colors, Gradients } from "@/src/tokens/colors";
 import { BorderRadius, Spacing } from "@/src/tokens/spacing";
 
 export function FeaturedHero({
+  id,
+  mediaType,
   title,
   overview,
   backdropUrl,
   genres,
   rating,
   year,
+  onPress,
 }: {
+  id: number;
+  mediaType: MediaType;
   title: string;
   overview: string;
   backdropUrl: string | null;
   genres: string[];
   rating: number;
   year: string;
+  onPress: () => void;
 }) {
+  const isFavorite = useFavoritesStore((state) => state.isFavorite(mediaType, id));
+  const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
+
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={onPress}>
       {backdropUrl && (
         <Image
           source={{ uri: backdropUrl }}
@@ -55,15 +65,19 @@ export function FeaturedHero({
           <Text style={styles.meta}>{year}</Text>
         </View>
         <View style={styles.actionsRow}>
-          <Pressable style={styles.playButton}>
+          <Pressable style={styles.playButton} onPress={onPress}>
             <Text style={styles.playButtonText}>▶ Play Now</Text>
           </Pressable>
-          <Pressable style={styles.addButton}>
-            <Text style={styles.addButtonText}>+</Text>
+          <Pressable
+            style={styles.addButton}
+            onPress={() => toggleFavorite(mediaType, id)}>
+            <Text style={[styles.addButtonText, isFavorite && styles.addButtonTextActive]}>
+              {isFavorite ? "♥" : "♡"}
+            </Text>
           </Pressable>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -161,5 +175,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "700",
     color: Colors.text.default,
+  },
+  addButtonTextActive: {
+    color: Colors.text.accent,
   },
 });

@@ -1,10 +1,11 @@
+import { router } from "expo-router";
 import { useMemo, useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 
 import { FeaturedHero } from "@/src/components/FeaturedHero";
 import { GenreChips } from "@/src/components/GenreChips";
 import { MediaRow } from "@/src/components/MediaRow";
-import { mockMovies, tmdbImageUrl } from "@/src/constants/tmdb";
+import { mockMovies, mockTvShows, tmdbImageUrl } from "@/src/constants/tmdb";
 import { MOVIE_GENRES } from "@/src/constants/tmdbGenres";
 import { Colors } from "@/src/tokens/colors";
 
@@ -29,7 +30,7 @@ export default function HomeScreen() {
 
   const [selectedGenre, setSelectedGenre] = useState(ALL);
 
-  const rowItems = rest
+  const movieRowItems = rest
     .filter(
       (movie) =>
         selectedGenre === ALL ||
@@ -37,14 +38,25 @@ export default function HomeScreen() {
     )
     .map((movie) => ({
       id: movie.id,
+      mediaType: "movie" as const,
       title: movie.title,
       posterUrl: tmdbImageUrl(movie.poster_path),
       voteAverage: movie.vote_average,
     }));
 
+  const tvRowItems = mockTvShows.map((show) => ({
+    id: show.id,
+    mediaType: "tv" as const,
+    title: show.name,
+    posterUrl: tmdbImageUrl(show.poster_path),
+    voteAverage: show.vote_average,
+  }));
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <FeaturedHero
+        id={featured.id}
+        mediaType="movie"
         title={featured.title}
         overview={featured.overview}
         backdropUrl={tmdbImageUrl(featured.backdrop_path, "w780")}
@@ -54,13 +66,15 @@ export default function HomeScreen() {
           .slice(0, 3)}
         rating={featured.vote_average}
         year={featured.release_date.slice(0, 4)}
+        onPress={() => router.push(`/details/movie/${featured.id}`)}
       />
       <GenreChips
         options={genreOptions}
         selected={selectedGenre}
         onSelect={setSelectedGenre}
       />
-      <MediaRow title="Popular Movies" items={rowItems} />
+      <MediaRow title="Popular Movies" items={movieRowItems} />
+      <MediaRow title="Popular TV Shows" items={tvRowItems} />
     </ScrollView>
   );
 }
