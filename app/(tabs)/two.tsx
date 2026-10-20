@@ -1,44 +1,29 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
 import { MediaCard, MediaItem } from "@/src/components/MediaCard";
-import { mockMovies, mockTvShows, tmdbImageUrl } from "@/src/constants/tmdb";
-import { favoriteKey, useFavoritesStore } from "@/src/store/favoritesStore";
+import { mockTvShows, tmdbImageUrl } from "@/src/constants/tmdb";
+import { useFavoritesStore } from "@/src/store/favoritesStore";
 import { Colors } from "@/src/tokens/colors";
 import { Spacing } from "@/src/tokens/spacing";
 
 export default function FavoritesScreen() {
   const favorites = useFavoritesStore((state) => state.favorites);
 
-  const items: MediaItem[] = [];
-  mockMovies.forEach((movie) => {
-    if (favorites.has(favoriteKey("movie", movie.id))) {
-      items.push({
-        id: movie.id,
-        mediaType: "movie",
-        title: movie.title,
-        posterUrl: tmdbImageUrl(movie.poster_path),
-        voteAverage: movie.vote_average,
-      });
-    }
-  });
-  mockTvShows.forEach((show) => {
-    if (favorites.has(favoriteKey("tv", show.id))) {
-      items.push({
-        id: show.id,
-        mediaType: "tv",
-        title: show.name,
-        posterUrl: tmdbImageUrl(show.poster_path),
-        voteAverage: show.vote_average,
-      });
-    }
-  });
+  const items: MediaItem[] = mockTvShows
+    .filter((show) => favorites.has(show.id))
+    .map((show) => ({
+      id: show.id,
+      title: show.name,
+      posterUrl: tmdbImageUrl(show.poster_path),
+      voteAverage: show.vote_average,
+    }));
 
   if (items.length === 0) {
     return (
       <View style={[styles.container, styles.emptyContainer]}>
         <Text style={styles.emptyTitle}>No favourites yet</Text>
         <Text style={styles.emptySubtitle}>
-          Tap the heart icon on any movie or show to save it here.
+          Tap the heart icon on any show to save it here.
         </Text>
       </View>
     );
@@ -48,7 +33,7 @@ export default function FavoritesScreen() {
     <View style={styles.container}>
       <FlatList
         data={items}
-        keyExtractor={(item) => `${item.mediaType}-${item.id}`}
+        keyExtractor={(item) => String(item.id)}
         numColumns={2}
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.content}

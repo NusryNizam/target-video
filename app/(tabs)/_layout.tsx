@@ -1,10 +1,23 @@
-import { Tabs } from "expo-router";
+import { Tabs, router } from "expo-router";
 import { SymbolView } from "expo-symbols";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { useClientOnlyValue } from "@/src/components/useClientOnlyValue";
+import { useUnlockStore } from "@/src/store/unlockStore";
 import { Colors } from "@/src/tokens/colors";
-import { Spacing } from "@/src/tokens/spacing";
+import { BorderRadius, Spacing } from "@/src/tokens/spacing";
+
+const coinIcon = require("@/assets/images/coin.png");
+
+function CoinBalancePill() {
+  const coinBalance = useUnlockStore((state) => state.coinBalance);
+  return (
+    <Pressable style={styles.coinPill} onPress={() => router.push("/coins")}>
+      <Image source={coinIcon} style={styles.coinIcon} />
+      <Text style={styles.coinText}>{coinBalance}</Text>
+    </Pressable>
+  );
+}
 
 export default function TabLayout() {
   return (
@@ -23,6 +36,7 @@ export default function TabLayout() {
         options={{
           title: "Home",
           headerTitle: "",
+          headerLeft: () => <CoinBalancePill />,
           tabBarIcon: ({ color }) => (
             <SymbolView
               name={{ ios: "house.fill", android: "home", web: "home" }}
@@ -98,5 +112,24 @@ const styles = StyleSheet.create({
     height: 28,
     alignItems: "center",
     justifyContent: "center",
+  },
+  coinPill: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.xs,
+    marginLeft: Spacing.lg,
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: Spacing.xxs,
+    borderRadius: BorderRadius.pill,
+    backgroundColor: Colors.background.secondary,
+  },
+  coinIcon: {
+    width: 18,
+    height: 18,
+  },
+  coinText: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: Colors.text.default,
   },
 });

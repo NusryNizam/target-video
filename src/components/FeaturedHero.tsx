@@ -1,13 +1,12 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-import { useFavoritesStore, type MediaType } from "@/src/store/favoritesStore";
+import { useFavoritesStore } from "@/src/store/favoritesStore";
 import { Colors, Gradients } from "@/src/tokens/colors";
 import { BorderRadius, Spacing } from "@/src/tokens/spacing";
 
 export function FeaturedHero({
   id,
-  mediaType,
   title,
   overview,
   backdropUrl,
@@ -17,7 +16,6 @@ export function FeaturedHero({
   onPress,
 }: {
   id: number;
-  mediaType: MediaType;
   title: string;
   overview: string;
   backdropUrl: string | null;
@@ -26,7 +24,7 @@ export function FeaturedHero({
   year: string;
   onPress: () => void;
 }) {
-  const isFavorite = useFavoritesStore((state) => state.isFavorite(mediaType, id));
+  const isFavorite = useFavoritesStore((state) => state.isFavorite(id));
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
 
   return (
@@ -70,7 +68,7 @@ export function FeaturedHero({
           </Pressable>
           <Pressable
             style={styles.addButton}
-            onPress={() => toggleFavorite(mediaType, id)}>
+            onPress={() => toggleFavorite(id)}>
             <Text style={[styles.addButtonText, isFavorite && styles.addButtonTextActive]}>
               {isFavorite ? "♥" : "♡"}
             </Text>

@@ -1,30 +1,23 @@
 import { create } from 'zustand';
 
-export type MediaType = 'movie' | 'tv';
-
-export function favoriteKey(mediaType: MediaType, id: number) {
-  return `${mediaType}-${id}`;
-}
-
 type FavoritesState = {
-  favorites: Set<string>;
-  toggleFavorite: (mediaType: MediaType, id: number) => void;
-  isFavorite: (mediaType: MediaType, id: number) => boolean;
+  favorites: Set<number>;
+  toggleFavorite: (id: number) => void;
+  isFavorite: (id: number) => boolean;
 };
 
 export const useFavoritesStore = create<FavoritesState>((set, get) => ({
   favorites: new Set(),
-  toggleFavorite: (mediaType, id) => {
-    const key = favoriteKey(mediaType, id);
+  toggleFavorite: (id) => {
     set((state) => {
       const next = new Set(state.favorites);
-      if (next.has(key)) {
-        next.delete(key);
+      if (next.has(id)) {
+        next.delete(id);
       } else {
-        next.add(key);
+        next.add(id);
       }
       return { favorites: next };
     });
   },
-  isFavorite: (mediaType, id) => get().favorites.has(favoriteKey(mediaType, id)),
+  isFavorite: (id) => get().favorites.has(id),
 }));
